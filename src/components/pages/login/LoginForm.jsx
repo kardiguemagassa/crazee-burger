@@ -31,7 +31,6 @@ export default function LoginForm() {
             placeholder='Entrez votre prénom...'
             required />
           <button type="submit">Accédez à votre espace</button>
-          <Link to="/order">Voir les commandes</Link>
       </LoginFormStyled>
   )
 }
