@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
-import Profile from "./Profile"
+import Profile from "./Profile.jsx"
 
 export default function NavbarRightSide({ username }) {
     return (
