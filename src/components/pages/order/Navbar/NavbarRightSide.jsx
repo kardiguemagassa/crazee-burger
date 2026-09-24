@@ -1,12 +1,13 @@
 import styled from "styled-components"
 import Profile from "./Profile"
 import ToggleButton from "../../../reusable-ui/ToggleButton"
-import { useState } from "react"
-import ToastAdmin from "./ToastAdmin.jsx"
+import { useContext } from "react"
+import ToastAdmin from "./ToastAdmin"
 import { toast } from "react-toastify"
+import OrderContext from "../../../../context/OrderContext"
 
 export default function NavbarRightSide({ username }) {
-    const [isModeAdmin, setIsModeAdmin] = useState(false)
+    const { isModeAdmin, setIsModeAdmin } = useContext(OrderContext)
 
     const displayToastNotification = () => {
         if (!isModeAdmin) {
@@ -28,6 +29,7 @@ export default function NavbarRightSide({ username }) {
     return (
         <NavbarRightSideStyled>
             <ToggleButton
+                isChecked={isModeAdmin}
                 labelIfUnchecked="ACTIVER LE MODE ADMIN"
                 labelIfChecked="DÉSACTIVER LE MODE ADMIN"
                 onToggle={displayToastNotification}
