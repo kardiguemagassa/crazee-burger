@@ -2,8 +2,8 @@ import { useContext } from "react"
 import styled from "styled-components"
 import OrderContext from "../../../../context/OrderContext"
 import { theme } from "../../../../theme"
-import Admin from "./Admin/Admin"
-import Menu from "./Menu"
+import Admin from "./MainRightSide/Admin/Admin"
+import Menu from "./MainRightSide/Menu/Menu.jsx"
 
 export default function Main() {
     const { isModeAdmin } = useContext(OrderContext)
