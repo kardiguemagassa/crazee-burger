@@ -1,56 +1,72 @@
+import { useRef, useState } from "react"
 import styled from "styled-components"
-import Total from "./Total"
-import { formatPrice } from "../../../../../utils/maths"
-import Footer from "./Footer"
-import EmptyBasket from "./EmptyBasket"
-import { useContext } from "react"
-import OrderContext from "../../../../../context/OrderContext"
-import BasketProducts from "./BasketProducts"
-import { theme } from "../../../../../theme"
+import { theme } from "../../../theme"
+import Main from "./Main/Main"
+import Navbar from "./Navbar/Navbar"
+import OrderContext from "../../../context/OrderContext"
+import { EMPTY_PRODUCT } from "../../../enums/product"
+import { useMenu } from "../../../hooks/useMenu"
+import { useBasket } from "../../../hooks/useBasket"
 
-export default function Basket() {
-    const { basket, isModeAdmin, handleDeleteBasketProduct } = useContext(OrderContext)
+export default function OrderPage() {
+    // state
+    const [isModeAdmin, setIsModeAdmin] = useState(false)
+    const [isCollapsed, setIsCollapsed] = useState(false)
+    const [currentTabSelected, setCurrentTabSelected] = useState("add")
+    const [newProduct, setNewProduct] = useState(EMPTY_PRODUCT)
+    const [productSelected, setProductSelected] = useState(EMPTY_PRODUCT)
+    const titleEditRef = useRef()
+    const { menu, handleAdd, handleDelete, handleEdit, resetMenu } = useMenu()
+    const { basket, handleAddToBasket, handleDeleteBasketProduct } = useBasket()
 
-    const isBasketEmpty = basket.length === 0
+    const orderContextValue = {
+        isModeAdmin,
+        setIsModeAdmin,
+        isCollapsed,
+        setIsCollapsed,
+        currentTabSelected,
+        setCurrentTabSelected,
+        menu,
+        handleAdd,
+        handleDelete,
+        resetMenu,
+        newProduct,
+        setNewProduct,
+        productSelected,
+        setProductSelected,
+        handleEdit,
+        titleEditRef,
+        basket,
+        handleAddToBasket,
+        handleDeleteBasketProduct,
+    }
 
-    const sumToPay = basket.reduce((total, basketProduct) => {
-        total += basketProduct.price * basketProduct.quantity
-        return total
-    }, 0)
-
+    //affichage
     return (
-        <BasketStyled>
-            <Total amountToPay={formatPrice(sumToPay)} />
-            {isBasketEmpty ? (
-                <EmptyBasket />
-            ) : (
-                <BasketProducts
-                    basket={basket}
-                    isModeAdmin={isModeAdmin}
-                    handleDeleteBasketProduct={handleDeleteBasketProduct}
-                />
-            )}
-            <Footer />
-        </BasketStyled>
+        <OrderContext.Provider value={orderContextValue}>
+            <OrderPageStyled>
+                <div className="container">
+                    <Navbar />
+                    <Main />
+                </div>
+            </OrderPageStyled>
+        </OrderContext.Provider>
     )
 }
 
-const BasketStyled = styled.div`
-    background: ${theme.colors.background_white};
-    box-shadow: ${theme.shadows.basket};
+const OrderPageStyled = styled.div`
+    background: ${theme.colors.primary};
+    height: 100vh;
     display: flex;
-    flex-direction: column;
-    border-bottom-left-radius: ${theme.borderRadius.extraRound};
-    height: 85vh;
+    justify-content: center;
+    align-items: center;
 
-    .head {
-        position: sticky;
-        top: 0;
-    }
-
-    .footer {
-        border-bottom-left-radius: ${theme.borderRadius.extraRound};
-        position: sticky;
-        bottom: 0;
+    .container {
+        background: red;
+        height: 95vh;
+        width: 1400px;
+        display: flex;
+        flex-direction: column;
+        border-radius: ${theme.borderRadius.extraRound};
     }
 `
