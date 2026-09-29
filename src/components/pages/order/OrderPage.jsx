@@ -1,110 +1,56 @@
-import { useRef, useState } from "react"
 import styled from "styled-components"
-import { theme } from "../../../theme"
-import Main from "./Main/Main"
-import Navbar from "./Navbar/Navbar"
-import OrderContext from "../../../context/OrderContext"
-import { fakeMenu } from "../../../fakeData/fakeMenu"
-import { EMPTY_PRODUCT } from "../../../enums/product.jsx"
-import { deepClone } from "../../../utils/array"
+import Total from "./Total"
+import { formatPrice } from "../../../../../utils/maths"
+import Footer from "./Footer"
+import EmptyBasket from "./EmptyBasket"
+import { useContext } from "react"
+import OrderContext from "../../../../../context/OrderContext"
+import BasketProducts from "./BasketProducts"
+import { theme } from "../../../../../theme"
 
-export default function OrderPage() {
-    // state
-    const [isModeAdmin, setIsModeAdmin] = useState(false)
-    const [isCollapsed, setIsCollapsed] = useState(false)
-    const [currentTabSelected, setCurrentTabSelected] = useState("add")
-    const [menu, setMenu] = useState(fakeMenu.MEDIUM)
-    const [newProduct, setNewProduct] = useState(EMPTY_PRODUCT)
-    const [productSelected, setProductSelected] = useState(EMPTY_PRODUCT)
-    const titleEditRef = useRef()
+export default function Basket() {
+    const { basket, isModeAdmin, handleDeleteBasketProduct } = useContext(OrderContext)
 
-    // comportements (gestionnaire de state ou "state handlers")
-    const handleAdd = (newProduct) => {
-        // 1. copie du tableau
-        const menuCopy = deepClone(menu)
+    const isBasketEmpty = basket.length === 0
 
-        // 2. manip de la copie du tableau
-        const menuUpdated = [newProduct, ...menuCopy]
+    const sumToPay = basket.reduce((total, basketProduct) => {
+        total += basketProduct.price * basketProduct.quantity
+        return total
+    }, 0)
 
-        // 3. update du state
-        setMenu(menuUpdated)
-    }
-
-    const handleDelete = (idOfProductToDelete) => {
-        //1. copy du state
-        const menuCopy = deepClone(menu)
-
-        //2. manip de la copie state
-        const menuUpdated = menuCopy.filter((product) => product.id !== idOfProductToDelete)
-        console.log("menuUpdated: ", menuUpdated)
-
-        //3. update du state
-        setMenu(menuUpdated)
-    }
-
-    const handleEdit = (productBeingEdited) => {
-        // 1. copie du state (deep clone)
-        const menuCopy = deepClone(menu)
-
-        // 2. manip de la copie du state
-        const indexOfProductToEdit = menu.findIndex(
-            (menuProduct) => menuProduct.id === productBeingEdited.id
-        )
-        menuCopy[indexOfProductToEdit] = productBeingEdited
-
-        // 3. update du state
-        setMenu(menuCopy)
-    }
-
-    const resetMenu = () => {
-        setMenu(fakeMenu.MEDIUM)
-    }
-
-    const orderContextValue = {
-        isModeAdmin,
-        setIsModeAdmin,
-        isCollapsed,
-        setIsCollapsed,
-        currentTabSelected,
-        setCurrentTabSelected,
-        menu,
-        handleAdd,
-        handleDelete,
-        resetMenu,
-        newProduct,
-        setNewProduct,
-        productSelected,
-        setProductSelected,
-        handleEdit,
-        titleEditRef,
-    }
-
-    //affichage
     return (
-        <OrderContext.Provider value={orderContextValue}>
-            <OrderPageStyled>
-                <div className="container">
-                    <Navbar />
-                    <Main />
-                </div>
-            </OrderPageStyled>
-        </OrderContext.Provider>
+        <BasketStyled>
+            <Total amountToPay={formatPrice(sumToPay)} />
+            {isBasketEmpty ? (
+                <EmptyBasket />
+            ) : (
+                <BasketProducts
+                    basket={basket}
+                    isModeAdmin={isModeAdmin}
+                    handleDeleteBasketProduct={handleDeleteBasketProduct}
+                />
+            )}
+            <Footer />
+        </BasketStyled>
     )
 }
 
-const OrderPageStyled = styled.div`
-    background: ${theme.colors.primary};
-    height: 100vh;
+const BasketStyled = styled.div`
+    background: ${theme.colors.background_white};
+    box-shadow: ${theme.shadows.basket};
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    border-bottom-left-radius: ${theme.borderRadius.extraRound};
+    height: 85vh;
 
-    .container {
-        background: red;
-        height: 95vh;
-        width: 1400px;
-        display: flex;
-        flex-direction: column;
-        border-radius: ${theme.borderRadius.extraRound};
+    .head {
+        position: sticky;
+        top: 0;
+    }
+
+    .footer {
+        border-bottom-left-radius: ${theme.borderRadius.extraRound};
+        position: sticky;
+        bottom: 0;
     }
 `
