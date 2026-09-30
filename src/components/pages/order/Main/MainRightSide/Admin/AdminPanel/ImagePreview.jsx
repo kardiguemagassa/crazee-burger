@@ -4,13 +4,13 @@ import { theme } from "../../../../../../../theme"
 
 export default function ImagePreview({ imageSource, title }) {
   return (
-    <ImagePreviewStyled>
-      {imageSource ? (
-        <img src={imageSource} alt={title} />
-      ) : (
-        <div className="empty-image">Aucune Image</div>
-      )}
-    </ImagePreviewStyled>
+      <ImagePreviewStyled>
+        {imageSource ? (
+            <img src={imageSource} alt={title} />
+        ) : (
+            <div className="empty-image">Aucune Image</div>
+        )}
+      </ImagePreviewStyled>
   )
 }
 
