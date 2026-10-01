@@ -1,5 +1,5 @@
 import { doc, getDoc, setDoc } from "firebase/firestore"
-import { db } from "./firebase-config.jsx"
+import { db } from "./firebase-config"
 import { fakeMenu } from "../fakeData/fakeMenu"
 
 export const getUser = async (idUser) => {
@@ -8,7 +8,8 @@ export const getUser = async (idUser) => {
 
   const docSnapshot = await getDoc(docRef)
   if (docSnapshot.exists()) {
-    return docSnapshot.data()
+    const userReceived = docSnapshot.data()
+    return userReceived
   }
 }
 
