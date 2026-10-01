@@ -4,7 +4,7 @@ import OrderContext from "../../../../../context/OrderContext"
 import { theme } from "../../../../../theme"
 import { formatPrice } from "../../../../../utils/maths"
 import Header from "../../../../reusable-ui/Header"
-import { calculateSumToPay } from "./helper"
+import { calculateSumToPay } from "./BasketHeader/helper.jsx"
 
 export default function Total() {
     const { basket, menu } = useContext(OrderContext)
