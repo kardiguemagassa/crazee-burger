@@ -1,6 +1,6 @@
 import React from "react"
 import { useContext } from "react"
-import styled from "styled-components/macro"
+import styled from "styled-components/"
 import { IMAGE_COMING_SOON } from "../../../../../../enums/product"
 import BasketCard from "./BasketCard"
 import OrderContext from "../../../../../../context/OrderContext"
