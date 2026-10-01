@@ -1,14 +1,17 @@
 import React from "react"
 import { useContext } from "react"
-import styled from "styled-components"
-import { IMAGE_COMING_SOON } from "../../../../../enums/product"
+import styled from "styled-components/macro"
+import { IMAGE_COMING_SOON } from "../../../../../../enums/product"
 import BasketCard from "./BasketCard"
-import OrderContext from "../../../../../context/OrderContext"
-import { findObjectById } from "../../../../../utils/array"
-import { checkIfProductIsClicked } from "../MainRightSide/Menu/helper"
+import OrderContext from "../../../../../../context/OrderContext"
+import { findObjectById } from "../../../../../../utils/array"
+import { checkIfProductIsClicked } from "../../MainRightSide/Menu/helper"
+import { TransitionGroup, CSSTransition } from "react-transition-group"
+import { basketAnimation } from "../../../../../../theme/animations"
 
 export default function BasketProducts() {
   const {
+    username,
     basket,
     isModeAdmin,
     handleDeleteBasketProduct,
@@ -19,28 +22,36 @@ export default function BasketProducts() {
 
   const handleOnDelete = (event, id) => {
     event.stopPropagation()
-    handleDeleteBasketProduct(id)
+    handleDeleteBasketProduct(id, username)
   }
 
   return (
-      <BasketProductsStyled>
+      <TransitionGroup component={BasketProductsStyled} className={"transition-group"}>
         {basket.map((basketProduct) => {
           const menuProduct = findObjectById(basketProduct.id, menu)
           return (
-              <div className="basket-card" key={basketProduct.id}>
-                <BasketCard
-                    {...menuProduct}
-                    imageSource={menuProduct.imageSource ? menuProduct.imageSource : IMAGE_COMING_SOON}
-                    quantity={basketProduct.quantity}
-                    onDelete={(event) => handleOnDelete(event, basketProduct.id)}
-                    isClickable={isModeAdmin}
-                    onClick={isModeAdmin ? () => handleProductSelected(basketProduct.id) : null}
-                    isSelected={checkIfProductIsClicked(basketProduct.id, productSelected.id)}
-                />
-              </div>
+              <CSSTransition
+                  appear={true}
+                  classNames={"animation-basket"}
+                  key={basketProduct.id}
+                  timeout={300}
+              >
+                <div className="card-container">
+                  <BasketCard
+                      {...menuProduct}
+                      imageSource={menuProduct.imageSource ? menuProduct.imageSource : IMAGE_COMING_SOON}
+                      quantity={basketProduct.quantity}
+                      onDelete={(event) => handleOnDelete(event, basketProduct.id)}
+                      isClickable={isModeAdmin}
+                      onClick={isModeAdmin ? () => handleProductSelected(basketProduct.id) : null}
+                      isSelected={checkIfProductIsClicked(basketProduct.id, productSelected.id)}
+                      className={"card"}
+                  />
+                </div>
+              </CSSTransition>
           )
         })}
-      </BasketProductsStyled>
+      </TransitionGroup>
   )
 }
 
@@ -51,7 +62,7 @@ const BasketProductsStyled = styled.div`
   flex-direction: column;
   overflow-y: scroll;
 
-  .basket-card {
+  .card-container {
     /* border: 1px solid blue; */
     margin: 10px 16px;
     height: 86px;
@@ -64,4 +75,6 @@ const BasketProductsStyled = styled.div`
       margin-bottom: 20px;
     }
   }
+
+  ${basketAnimation}
 `
