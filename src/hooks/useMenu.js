@@ -38,7 +38,7 @@ export const useMenu = () => {
 
     // 2. manip de la copie du state
     const indexOfProductToEdit = menu.findIndex(
-        (menuProduct) => menuProduct.id === productBeingEdited.id
+      (menuProduct) => menuProduct.id === productBeingEdited.id
     )
     menuCopy[indexOfProductToEdit] = productBeingEdited
 

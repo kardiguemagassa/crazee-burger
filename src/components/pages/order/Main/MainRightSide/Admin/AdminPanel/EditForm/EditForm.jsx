@@ -8,7 +8,7 @@ import { useSuccessMessage } from "../../../../../../../../hooks/useSuccessMessa
 export default function EditForm() {
   // state
   const { username, productSelected, setProductSelected, handleEdit, titleEditRef } =
-      useContext(OrderContext)
+    useContext(OrderContext)
 
   const [valueOnFocus, setvalueOnFocus] = useState()
   const { isSubmitted: isSaved, displaySuccessMessage } = useSuccessMessage()
@@ -41,14 +41,14 @@ export default function EditForm() {
 
   // affichage
   return (
-      <Form
-          product={productSelected}
-          onChange={handleChange}
-          onFocus={handleOnFocus}
-          onBlur={handleOnBlur}
-          ref={titleEditRef}
-      >
-        {isSaved ? <SavingMessage /> : <EditInfoMessage />}
-      </Form>
+    <Form
+      product={productSelected}
+      onChange={handleChange}
+      onFocus={handleOnFocus}
+      onBlur={handleOnBlur}
+      ref={titleEditRef}
+    >
+      {isSaved ? <SavingMessage /> : <EditInfoMessage />}
+    </Form>
   )
 }

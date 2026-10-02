@@ -3,11 +3,11 @@ import Ribbon from "../../../../../reusable-ui/Ribbon"
 import { css } from "styled-components"
 
 export default function RibbonAnimated() {
-    return (
-        <CSSTransition in={true} timeout={500} appear={true} classNames="ribbon-animation">
-            <Ribbon className="ribbon" label="nouveau" />
-        </CSSTransition>
-    )
+  return (
+    <CSSTransition in={true} timeout={500} appear={true} classNames="ribbon-animation">
+      <Ribbon className="ribbon" label="nouveau" />
+    </CSSTransition>
+  )
 }
 
 export const ribbonAnimation = css`

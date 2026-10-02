@@ -4,15 +4,15 @@ import { theme } from "../../../../../../../../theme"
 import { fadeIn } from "../../../../../../../../theme/animations"
 
 export default function ImagePreview({ imageSource, title }) {
-    return (
-        <ImagePreviewStyled>
-            {imageSource ? (
-                <img src={imageSource} alt={title} />
-            ) : (
-                <div className="empty-image">Aucune Image</div>
-            )}
-        </ImagePreviewStyled>
-    )
+  return (
+    <ImagePreviewStyled>
+      {imageSource ? (
+        <img src={imageSource} alt={title} />
+      ) : (
+        <div className="empty-image">Aucune Image</div>
+      )}
+    </ImagePreviewStyled>
+  )
 }
 
 const ImagePreviewStyled = styled.div`

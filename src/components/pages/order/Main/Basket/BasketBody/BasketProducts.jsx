@@ -13,15 +13,8 @@ import { convertStringToBoolean } from "../../../../../../utils/string"
 import Sticker from "../../../../../reusable-ui/Sticker"
 
 export default function BasketProducts() {
-  const {
-    username,
-    basket,
-    isModeAdmin,
-    handleDeleteBasketProduct,
-    menu,
-    handleProductSelected,
-    productSelected,
-  } = useContext(OrderContext)
+  const { username, basket, isModeAdmin, handleDeleteBasketProduct, menu, handleProductSelected, productSelected } =
+    useContext(OrderContext)
 
   const handleOnDelete = (event, id) => {
     event.stopPropagation()
@@ -29,40 +22,33 @@ export default function BasketProducts() {
   }
 
   return (
-      <TransitionGroup component={BasketProductsStyled} className={"transition-group"}>
-        {basket.map((basketProduct) => {
-          const menuProduct = findObjectById(basketProduct.id, menu)
-          return (
-              <CSSTransition
-                  appear={true}
-                  classNames={"animation-basket"}
-                  key={basketProduct.id}
-                  timeout={300}
-              >
-                <div className="card-container">
-                  {convertStringToBoolean(menuProduct.isPublicised) && (
-                      <Sticker className="badge-new" />
-                  )}
-                  <BasketCard
-                      {...menuProduct}
-                      imageSource={menuProduct.imageSource ? menuProduct.imageSource : IMAGE_COMING_SOON}
-                      quantity={basketProduct.quantity}
-                      onDelete={(event) => handleOnDelete(event, basketProduct.id)}
-                      isClickable={isModeAdmin}
-                      onClick={isModeAdmin ? () => handleProductSelected(basketProduct.id) : null}
-                      isSelected={checkIfProductIsClicked(basketProduct.id, productSelected.id)}
-                      className={"card"}
-                      price={
-                        convertStringToBoolean(menuProduct.isAvailable)
-                            ? formatPrice(menuProduct.price)
-                            : BASKET_MESSAGE.NOT_AVAILABLE
-                      }
-                  />
-                </div>
-              </CSSTransition>
-          )
-        })}
-      </TransitionGroup>
+    <TransitionGroup component={BasketProductsStyled} className={"transition-group"}>
+      {basket.map((basketProduct) => {
+        const menuProduct = findObjectById(basketProduct.id, menu)
+        return (
+          <CSSTransition appear={true} classNames={"animation-basket"} key={basketProduct.id} timeout={300}>
+            <div className="card-container">
+              <BasketCard
+                {...menuProduct}
+                imageSource={menuProduct.imageSource ? menuProduct.imageSource : IMAGE_COMING_SOON}
+                quantity={basketProduct.quantity}
+                onDelete={(event) => handleOnDelete(event, basketProduct.id)}
+                isClickable={isModeAdmin}
+                onClick={isModeAdmin ? () => handleProductSelected(basketProduct.id) : null}
+                isSelected={checkIfProductIsClicked(basketProduct.id, productSelected.id)}
+                className={"card"}
+                price={
+                  convertStringToBoolean(menuProduct.isAvailable)
+                    ? formatPrice(menuProduct.price)
+                    : BASKET_MESSAGE.NOT_AVAILABLE
+                }
+                isPublicised={convertStringToBoolean(menuProduct.isPublicised)}
+              />
+            </div>
+          </CSSTransition>
+        )
+      })}
+    </TransitionGroup>
   )
 }
 
