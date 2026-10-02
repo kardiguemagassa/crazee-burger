@@ -10,6 +10,18 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_APP_ID,
 }
 
+console.log("projectId:", import.meta.env.VITE_APP_PROJECT_ID)
+console.log("authDomain:", import.meta.env.VITE_APP_AUTH_DOMAIN)
+
+console.log({
+  apiKeyLoaded: !!import.meta.env.VITE_APP_API_KEY,
+  authDomainLoaded: !!import.meta.env.VITE_APP_AUTH_DOMAIN,
+  projectIdLoaded: !!import.meta.env.VITE_APP_PROJECT_ID,
+  storageBucketLoaded: !!import.meta.env.VITE_APP_STORAGE_BUCKET,
+  messagingSenderIdLoaded: !!import.meta.env.VITE_APP_MESSAGING_SENDER_ID,
+  appIdLoaded: !!import.meta.env.VITE_APP_APP_ID,
+})
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig) // pour se connecter à notre compte firebase
 export const db = getFirestore(app) // pour se connecter à notre BDD Firestore
