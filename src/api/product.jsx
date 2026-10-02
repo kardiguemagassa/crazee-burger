@@ -1,5 +1,5 @@
 import { doc, getDoc, setDoc } from "firebase/firestore"
-import { db } from "./firebase-config.jsx"
+import { db } from "./firebase-config"
 
 export const syncBothMenus = (userId, menuUpdated) => {
   const cachette = doc(db, "users", userId)

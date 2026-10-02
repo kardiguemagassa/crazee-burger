@@ -3,25 +3,25 @@ import styled from "styled-components"
 import { theme } from "../../theme"
 
 export default function SelectInput({
-  options,
-  value,
-  name,
-  Icon,
-  className,
-  onChange,
-  ...restProps
-}) {
+                                      options,
+                                      value,
+                                      name,
+                                      Icon,
+                                      className,
+                                      onChange,
+                                      ...restProps
+                                    }) {
   return (
-    <SelectInputStyled className={className}>
-      {Icon && <div className="icon">{Icon}</div>}
-      <select name={name} value={value} onChange={onChange} {...restProps}>
-        {options.map(({ optionValue, label }) => (
-          <option key={label} value={optionValue}>
-            {label}
-          </option>
-        ))}
-      </select>
-    </SelectInputStyled>
+      <SelectInputStyled className={className}>
+        {Icon && <div className="icon">{Icon}</div>}
+        <select name={name} value={value} onChange={onChange} {...restProps}>
+          {options.map(({ optionValue, label }) => (
+              <option key={label} value={optionValue}>
+                {label}
+              </option>
+          ))}
+        </select>
+      </SelectInputStyled>
   )
 }
 
