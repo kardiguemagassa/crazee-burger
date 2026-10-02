@@ -1,16 +1,43 @@
-# React + Vite
+# Crazee Burger (version Typescript en solo)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 1. Pour installer le projet
 
-Currently, two official plugins are available:
+```
+yarn install
+```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 2. Pour connecter le projet au backend firebase, créer le fichier .env à la racine du projet avec les valeurs suivantes (demander à Vi les valeurs) :
 
-## React Compiler
+Si projet initilisé avec CRA (create-react-app) :
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```
+REACT_APP_API_KEY=
+REACT_APP_AUTH_DOMAIN=
+REACT_APP_PROJECT_ID=
+REACT_APP_STORAGE_BUCKET=
+REACT_APP_MESSAGING_SENDER_ID=
+REACT_APP_APP_ID=
+```
 
-## Expanding the ESLint configuration
+firebase-config.js > ces variables d'environnement seront consommés via process.env.REACT_APP_API_KEY
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Si projet initilisé avec Vite.JS :
+
+```
+VITE_APP_API_KEY = ???
+VITE_APP_AUTH_DOMAIN = ???
+VITE_APP_PROJECT_ID = ???
+VITE_APP_STORAGE_BUCKET = ???
+VITE_APP_MESSAGING_SENDER_ID = ???
+VITE_APP_APP_ID = ???
+```
+
+firebase-config.js > ces variables d'environnement seront consommés via import.meta.env.VITE_APP_API_KEY
+
+P.S. Sans ça, tu ne pourras pas accéder à la page de commande avec les bonnes valeurs du compte client. Tu seras bloqué à la page de Login.
+
+## 3. Pour lancer le projet
+
+```
+yarn dev
+```
