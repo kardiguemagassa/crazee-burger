@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import ImagePreview from "./ImagePreview"
-import { Inputs } from "./Inputs"
+import { Inputs } from "./Inputs.jsx"
 
 const Form = React.forwardRef(({ product, onSubmit, children, onChange, onFocus, onBlur }, ref) => {
     // state (vide)
