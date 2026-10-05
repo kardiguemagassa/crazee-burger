@@ -1,8 +1,24 @@
-import React from "react"
+import React, { ComponentPropsWithRef } from "react"
 import styled, { css } from "styled-components"
-import { theme } from "../../theme"
+import { theme } from "@/theme/theme"
 
-const TextInput = React.forwardRef(
+type TextInputVersion = "normal" | "minimalist"
+
+// type TextInputProps = {
+//   onChange?: React.ChangeEventHandler<HTMLInputElement>,
+//   Icon: JSX.Element,
+//   className?: string,
+//   version?: TextInputVersion,
+//   //  ...extraProps: unknown
+// } & React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
+
+type TextInputProps = {
+  Icon: JSX.Element,
+  version?: TextInputVersion,
+} & ComponentPropsWithRef<"input">
+
+
+const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
   ({ onChange, Icon, className, version = "normal", ...extraProps }, ref) => {
     return (
       <TextInputStyled className={className} version={version}>
@@ -13,8 +29,12 @@ const TextInput = React.forwardRef(
   }
 )
 
+type TextInputStyledProps = {
+  version: TextInputVersion
+}
+
 export default TextInput
-const TextInputStyled = styled.div`
+const TextInputStyled = styled.div<TextInputStyledProps>`
   border-radius: ${theme.borderRadius.round};
   display: flex;
   align-items: center;
