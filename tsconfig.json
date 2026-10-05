@@ -19,6 +19,11 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*" : ["src/*"], // ne fonctionne que à partir de fichiers typescript (.ts et .tsx) pour importer des modules typescript (.ts et .tsx)
+      // "@/components/" : ["src/components/reusable-ui/*"] // superflu, inutile
+    }
   },
   "include": ["src/**/*"],                         
   "exclude": ["node_modules", "build", "dist"]  
