@@ -1,10 +1,10 @@
 import styled from "styled-components"
-import { useOrderContext } from "../../../../../../context/OrderContext"
-import { theme } from "../../../../../../theme"
-import { formatPrice } from "../../../../../../utils/maths"
-import Header from "../../../../../reusable-ui/Header"
+import { useOrderContext } from "@/context/OrderContext"
+import { theme } from "@/theme/theme"
+import { formatPrice } from "@/utils/maths"
+import Header from "@/components/reusable-ui/Header"
 import { calculateSumToPay } from "./helper"
-import CasinoEffect from "../../../../../reusable-ui/CasinoEffect"
+import CasinoEffect from "@/components/reusable-ui/CasinoEffect"
 
 export default function BasketHeader() {
   const { basket, menu } = useOrderContext()
