@@ -1,8 +1,12 @@
+import { BasketProduct, MenuProduct } from "@/types/Product"
+//@ts-ignore
 import { EMPTY_PRODUCT } from "../enums/product"
 
-export const EMPTY = []
+export const EMPTY: BasketProduct[] = []
 
-export const SMALL = [
+type BasketProductOmitted = Omit<BasketProduct, "price" | "isAvailable" | "isPublicised">
+
+export const SMALL: BasketProductOmitted[] = [
   {
     id: "1",
     title: "Burger Meal",
@@ -11,7 +15,8 @@ export const SMALL = [
   },
 ]
 
-export const MEDIUM = [
+export const MEDIUM: (Omit<BasketProduct, "price" | "isAvailable" | "isPublicised"> &
+  Pick<MenuProduct, "price">)[] = [
   {
     id: "1",
     imageSource: "images/burger1.png",
@@ -42,7 +47,7 @@ export const MEDIUM = [
   },
 ]
 
-export const LARGE = [
+export const LARGE: BasketProduct[] = [
   {
     id: "1",
     imageSource: "/images/fries3.png",
@@ -135,7 +140,7 @@ export const LARGE = [
   },
 ]
 
-export const LARGE_WEIRD = [
+export const LARGE_WEIRD: BasketProduct[] = [
   {
     ...EMPTY_PRODUCT,
     quantity: 1,
