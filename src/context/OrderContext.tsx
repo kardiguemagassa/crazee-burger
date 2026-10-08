@@ -1,4 +1,4 @@
-import React, { createContext, PropsWithChildren, useContext, useRef, useState } from "react"
+import { createContext, PropsWithChildren, useContext, useRef, useState } from "react"
 import { useMenu } from "@/hooks/useMenu"
 import { useBasket } from "@/hooks/useBasket"
 import { findObjectById } from "@/utils/array"
@@ -85,4 +85,9 @@ export const OrderContextProvider = ({ children }: PropsWithChildren) => {
 }
 
 // 3. Consommation du context
-export const useOrderContext = () => useContext(OrderContext)
+export const useOrderContext = () => {
+  const orderContextData = useContext(OrderContext)
+  if (orderContextData === undefined) throw new Error("useOrderContext() can only be used within OrderContextProvider")
+
+  return orderContextData
+}
