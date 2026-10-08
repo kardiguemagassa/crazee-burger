@@ -3,7 +3,6 @@ import { theme } from "@/theme/theme"
 //@ts-ignore
 import Main from "./Main/Main"
 import Navbar from "./Navbar/Navbar"
-//@ts-ignore
 import { initialiseUserSession } from "./helpers/initialiseUserSession"
 import { useEffect } from "react"
 import { useParams } from "react-router-dom"
@@ -14,8 +13,12 @@ export default function OrderPage() {
   const { username } = useParams()
   const { setMenu, setBasket } = useOrderContext()
 
+  // 1e possibilité : vérification via une condition dans le useEffect()
+  // 2e possibilité : non-null assertion operator : "!"
+  // 3e possibilité : fall-back value (valeur de secours), nullish coalescing (opérateur de coalescence des nuls)
+
   useEffect(() => {
-    initialiseUserSession(username, setMenu, setBasket)
+    if (username) initialiseUserSession(username, setMenu, setBasket)
   }, [])
 
   //affichage (render)
