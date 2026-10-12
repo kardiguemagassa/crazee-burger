@@ -63,7 +63,7 @@ export const Inputs = React.forwardRef<HTMLInputElement, InputsProps>(
             onChange={onChangeMulti}
             customIcon={IoPricetag}
             placeholder="Catégorie (ex: Boisson)"
-            value={currentTabSelected === ADMIN_TAB_LABEL.ADD ? newProduct.categories : productSelected.categories}
+            value={currentTabSelected === ADMIN_TAB_LABEL.PRODUCT_ADD ? newProduct.categories : productSelected.categories}
             onFocus={onFocus}
             onBlur={onBlur}
           />

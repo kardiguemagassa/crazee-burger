@@ -13,7 +13,7 @@ type TextInputVersion = "normal" | "minimalist"
 // } & React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
 type TextInputProps = {
-  Icon: JSX.Element,
+  Icon?: JSX.Element,
   version?: TextInputVersion,
 } & ComponentPropsWithRef<"input">
 
