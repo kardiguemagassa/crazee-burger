@@ -1,28 +1,20 @@
 import styled from "styled-components"
-import { useOrderContext } from "@/context/OrderContext"
 import { theme } from "@/theme/theme"
-import { formatPrice } from "@/utils/maths"
 import Header from "@/components/reusable-ui/Header"
-import { calculateSumToPay } from "./helper"
-import CasinoEffect from "@/components/reusable-ui/CasinoEffect"
 
-export default function BasketHeader() {
-  const { basket, products } = useOrderContext()
-
-  const sumToPay = calculateSumToPay(basket, products)
+export default function BasketHeader({ className }: { className?: string }) {
 
   return (
-    <Header>
+    <Header className={className}>
       <BasketHeaderStyled>
-        <span className="total">Total</span>
-        <CasinoEffect count={formatPrice(sumToPay)} />
+        <span>Commande client</span>
       </BasketHeaderStyled>
     </Header>
   )
 }
 
 const BasketHeaderStyled = styled.div`
-  height: 100%;
+  /* height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -30,5 +22,16 @@ const BasketHeaderStyled = styled.div`
   font-family: "Amatic SC", cursive;
   font-size: ${theme.fonts.size.P4};
   font-weight: ${theme.fonts.weights.bold};
-  letter-spacing: 2px;
+  letter-spacing: 2px; */
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  span {
+    font-size: ${theme.fonts.size.P3};
+    font-family: ${theme.fonts.family.stylish};
+    font-weight: ${theme.fonts.weights.bold};
+    color: ${theme.colors.white};
+  }
 `

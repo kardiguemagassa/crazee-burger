@@ -19,12 +19,11 @@ export default function EmptyBasket({ isLoading }: EmptyBasketProps) {
 
 const EmptyBasketStyled = styled.div`
   flex: 1;
-  background: ${theme.colors.background_white};
-  box-shadow: ${theme.shadows.basket};
+  background: transparent;
 
   .empty-message {
     display: flex;
-    height: calc(95vh - 10vh - 70px - 70px);
+    height: calc(95vh - 10vh - 70px - 110px);
     text-align: center;
     flex: 1;
     justify-content: center;

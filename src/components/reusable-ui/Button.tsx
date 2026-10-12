@@ -6,7 +6,7 @@ import { Loader } from "./Loader"
 type ButtonVersion = "normal" | "success"
 
 type ButtonProps = {
-  label: string
+  label?: string
   Icon?: JSX.Element
   version?: ButtonVersion
   isLoading?: boolean
@@ -19,25 +19,48 @@ export default function Button({
   className,
   version = "normal",
   onClick,
+  children,
+  disabled,
 }: ButtonProps) {
+
   return (
-    <ButtonStyled className={className} version={version} onClick={onClick} disabled={isLoading}>
-      {isLoading ? (
-        <Loader color={theme.colors.white} />
-      ) : (
-        <>
-          <span>{label}</span>
-          <div className="icon">{Icon && Icon}</div>
-        </>
-      )}
+    <ButtonStyled
+      className={className}
+      version={version}
+      isLoading={isLoading}
+      onClick={onClick}
+      disabled={Boolean(isLoading) || Boolean(disabled)}
+    >
+      <div className="label-container">
+        {isLoading ? (
+          <Loader color={theme.colors.white} />
+        ) : (
+          <>
+            {label ? (
+              <div className="label-container">
+                <span>{label}</span>
+                {Icon && <div className="icon">{Icon}</div>}
+              </div>
+            ) : (
+              children
+            )}
+          </>
+        )}
+      </div>
     </ButtonStyled>
   )
 }
 
-type ButtonStyledProps = { version: ButtonVersion }
+type ButtonStyledProps = {
+  version: ButtonVersion
+  isLoading?: boolean
+}
 
 const ButtonStyled = styled.button<ButtonStyledProps>`
   ${({ version }) => extraStyle[version]};
+  &:disabled {
+    opacity: ${({ isLoading }) => (isLoading ? "100%" : "40%")};
+  }
 `
 
 const extraStyleNormal = css`
@@ -60,6 +83,14 @@ const extraStyleNormal = css`
   border: 1px solid #ff9f1b;
   cursor: pointer;
 
+  .label-container {
+    /* border: 1px solid blue; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* min-height: 20px; */
+  }
+
   :hover {
     color: ${theme.colors.primary};
     background-color: ${theme.colors.white};
@@ -72,7 +103,7 @@ const extraStyleNormal = css`
   }
 
   &:disabled {
-    opacity: 100%;
+    opacity: 40%;
     cursor: not-allowed;
     z-index: 2;
   }

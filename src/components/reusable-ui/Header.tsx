@@ -9,8 +9,8 @@ import { PropsWithChildren } from "react"
 
 // 2e méthode : PropsWithChildren
 
-export default function Header({ children }: PropsWithChildren) {
-  return <HeaderStyled>{children}</HeaderStyled>
+export default function Header({ children, className }: PropsWithChildren & { className?: string }) {
+  return <HeaderStyled className={className}>{children}</HeaderStyled>
 }
 
 const HeaderStyled = styled.div`

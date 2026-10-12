@@ -46,6 +46,7 @@ const fonts = {
     P1: "18px",
     P2: "20px",
     P3: "24px",
+    P3bis: "32px",
     P4: "36px",
     P5: "48px",
     P6: "60px",
@@ -92,6 +93,12 @@ const animations = {
   },
 }
 
+const breakpoints = {
+  mobile: "768px",
+  tablet: "1024px",
+  desktop: "1440px",
+}
+
 export const theme = {
   colors,
   fonts,
@@ -100,4 +107,5 @@ export const theme = {
   shadows,
   spacing,
   animations,
+  breakpoints,
 }

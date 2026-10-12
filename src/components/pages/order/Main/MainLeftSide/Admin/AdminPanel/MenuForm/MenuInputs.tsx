@@ -31,7 +31,7 @@ export const getMultiSelectedProductOptions = (products: Product[]) => {
 export const MenuInputs = React.forwardRef<HTMLInputElement, MenuInputsProps>(
   ({ menu, onChange, onFocus, onBlur }, ref) => {
     const { products } = useOrderContext()
-    const [previousMenu, setPreviousMenu] = useState<Pick<Menu, "id" | "price">>(menu)
+    const [previousMenu, setPreviousMenu] = useState<Pick<Menu, "id" | "price" | "products">>(menu)
     const [isPriceAnimationVisible, setIsPriceAnimationVisible] = useState(false)
     const [addedProductPrice, setAddedProductPrice] = useState(0)
 
@@ -44,25 +44,28 @@ export const MenuInputs = React.forwardRef<HTMLInputElement, MenuInputsProps>(
     const inputTexts = getInputTextsConfig(menu)
     const inputSelects = getSelectInputConfig(menu)
 
-    // useEffet pour détecter l'augmentation du prix et calculer le prix du produit ajouté
+    // useEffect pour détecter l'ajout de produits et calculer le prix du produit ajouté
     useEffect(() => {
       const isSameMenu = menu.id === previousMenu.id
-      const hasMenuPriceChanged = menu.price > previousMenu.price
-      const hasMenuAtLeastOneProduct = menu?.products?.length > 1
+      const currentProductCount = menu?.products?.length || 0
+      const previousProductCount = previousMenu?.products?.length || 0
+      const hasMoreProducts = currentProductCount > previousProductCount
+      const hasMenuAtLeastOneProduct = currentProductCount > 1
 
-      // en gros, faut 3 conditions pour activer l'animation du prix "mustActivatePriceAnimation"
+      // Animation se déclenche seulement quand on ajoute des produits (pas quand on modifie le prix manuellement)
       const mustActivatePriceAnimation =
-        isSameMenu && hasMenuAtLeastOneProduct && hasMenuPriceChanged
+        isSameMenu && hasMenuAtLeastOneProduct && hasMoreProducts
 
       if (mustActivatePriceAnimation) {
         const productPriceJustAdded = menu.price - previousMenu.price
         setAddedProductPrice(productPriceJustAdded)
-        setIsPriceAnimationVisible(true)
+        productPriceJustAdded > 0 && setIsPriceAnimationVisible(true)
       }
 
       setPreviousMenu({
         price: menu.price,
         id: menu.id,
+        products: menu.products,
       })
     }, [menu.price, menu.id, previousMenu.price, previousMenu.id])
 

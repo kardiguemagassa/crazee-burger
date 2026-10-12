@@ -1,7 +1,7 @@
 import { Menu } from "@/types/Menu"
 import { fakeCategories } from "./fakeCategories"
 import { fakeProducts } from "./fakeProducts"
-import { getCategoriesFromMenuProducts } from "@/components/pages/order/Main/MainLeftSide/Admin/AdminPanel/MenuForm/MenuAddForm/helper"
+import { getCategoriesFromMenuProducts, getMenuPrice } from "@/components/pages/order/Main/MainLeftSide/Admin/AdminPanel/MenuForm/MenuAddForm/helper"
 
 
 const EMPTY: Menu[] = []
@@ -26,7 +26,7 @@ const MEDIUM: Menu[] = [
         id: "1a",
         title: "Menu Burger USA",
         imageSource: "https://allpizzapastabuffet.fr/Montpellier/wp-content/uploads/2024/05/appb-formule-burger.png",
-        price: 15.353,
+        price: getMenuPrice(fakeProducts.SMALL.slice(0, 3)),
         categories: getCategoriesFromMenuProducts(fakeProducts.SMALL.slice(0, 3)),
         quantity: 0,
         isAvailable: true,
@@ -37,7 +37,7 @@ const MEDIUM: Menu[] = [
         id: "2a",
         title: "Groovy Menu",
         imageSource: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAZlAOqTQtYzG7KwBizjcP6EdO_3JWSCCzWH5JGLk-y1Uk3DDdIlcKWrUMZ6eGRRM0Q_Q&usqp=CAU",
-        price: 15.353,
+        price: getMenuPrice(fakeProducts.SMALL.slice(0, 3)),
         categories: getCategoriesFromMenuProducts(fakeProducts.SMALL.slice(0, 3)),
         quantity: 0,
         isAvailable: true,
@@ -48,7 +48,7 @@ const MEDIUM: Menu[] = [
         id: "3a",
         title: "Menu Salade",
         imageSource: "https://api.helpyfood.com/menus/16b3a835e95b4cc216f960cb730c6e1e.png.webp",
-        price: 15.353,
+        price: getMenuPrice(fakeProducts.SMALL.slice(0, 3)),
         categories: getCategoriesFromMenuProducts(fakeProducts.SMALL.slice(0, 3)),
         quantity: 0,
         isAvailable: true,
