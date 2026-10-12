@@ -7,28 +7,29 @@ import { BasketProductQuantity, MenuProduct } from "@/types/Product"
 import { ADMIN_TAB_LABEL } from "@/constants/tab"
 
 type OrderContextType = {
-  isModeAdmin: boolean,
-  setIsModeAdmin: React.Dispatch<React.SetStateAction<boolean>>,
-  isCollapsed: boolean,
-  setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>,
-  currentTabSelected: ADMIN_TAB_LABEL,
-  setCurrentTabSelected: React.Dispatch<React.SetStateAction<ADMIN_TAB_LABEL>>,
-  menu: MenuProduct[] | undefined,
-  setMenu: React.Dispatch<React.SetStateAction<MenuProduct[] | undefined>>,
-  handleAdd: (newProduct: MenuProduct, username: string) => void,
+  isModeAdmin: boolean
+  setIsModeAdmin: React.Dispatch<React.SetStateAction<boolean>>
+  isCollapsed: boolean
+  setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>
+  currentTabSelected: ADMIN_TAB_LABEL
+  setCurrentTabSelected: React.Dispatch<React.SetStateAction<ADMIN_TAB_LABEL>>
+  menu: MenuProduct[] | undefined
+  setMenu: React.Dispatch<React.SetStateAction<MenuProduct[] | undefined>>
+  handleAdd: (newProduct: MenuProduct, username: string) => void
   handleDelete: (idOfProductToDelete: string, username: string) => void
   resetMenu: (username: string) => void
-  newProduct: MenuProduct,
-  setNewProduct: React.Dispatch<React.SetStateAction<MenuProduct>>,
-  productSelected: MenuProduct,
-  setProductSelected: React.Dispatch<React.SetStateAction<MenuProduct>>,
-  handleEdit: (productBeingEdited: MenuProduct, username: string) => void,
-  titleEditRef: React.RefObject<HTMLInputElement>,
-  basket: BasketProductQuantity[],
-  setBasket: React.Dispatch<React.SetStateAction<BasketProductQuantity[]>>,
-  handleAddToBasket: (idProductToAdd: string, username: string) => void,
-  handleDeleteBasketProduct: (idBasketProduct: string, username: string) => void,
-  handleProductSelected: (idProductClicked: string) => Promise<void>,
+  newProduct: MenuProduct
+  setNewProduct: React.Dispatch<React.SetStateAction<MenuProduct>>
+  productSelected: MenuProduct
+  setProductSelected: React.Dispatch<React.SetStateAction<MenuProduct>>
+  handleEdit: (productBeingEdited: MenuProduct, username: string) => void
+  titleEditRef: React.RefObject<HTMLInputElement>
+  basket: BasketProductQuantity[]
+  setBasket: React.Dispatch<React.SetStateAction<BasketProductQuantity[]>>
+  handleAddToBasket: (idProductToAdd: string, username: string) => void
+  handleDeleteBasketProduct: (idBasketProduct: string, username: string) => void
+  handleProductSelected: (idProductClicked: string) => Promise<void>
+  hidePanel: () => void
 }
 
 // 1. Création du context
@@ -56,6 +57,10 @@ export const OrderContextProvider = ({ children }: PropsWithChildren) => {
     titleEditRef.current?.focus()
   }
 
+  const hidePanel = () => {
+    isModeAdmin && setIsCollapsed(!isCollapsed)
+  }
+
   const orderContextValue: OrderContextType = {
     isModeAdmin,
     setIsModeAdmin,
@@ -79,6 +84,7 @@ export const OrderContextProvider = ({ children }: PropsWithChildren) => {
     handleAddToBasket,
     handleDeleteBasketProduct,
     handleProductSelected,
+    hidePanel,
   }
 
   return <OrderContext.Provider value={orderContextValue}>{children}</OrderContext.Provider>
@@ -87,7 +93,8 @@ export const OrderContextProvider = ({ children }: PropsWithChildren) => {
 // 3. Consommation du context
 export const useOrderContext = () => {
   const orderContextData = useContext(OrderContext)
-  if (orderContextData === undefined) throw new Error("useOrderContext() can only be used within OrderContextProvider")
+  if (orderContextData === undefined)
+    throw new Error("useOrderContext() can only be used within OrderContextProvider")
 
   return orderContextData
 }
