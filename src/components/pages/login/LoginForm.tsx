@@ -8,25 +8,40 @@ import Button from "@/components/reusable-ui/Button"
 import { theme } from "@/theme/theme"
 import { authenticateUser } from "@/api/user"
 import Welcome from "./Welcome"
+import { loginFormValidator } from "./loginFormValidator"
+import { ErrorMessage } from "@/components/reusable-ui/ErrorMessage"
 
+type Status = "success" | "loading" | "error" | "idle"
 
 export default function LoginForm() {
   // state
   const [username, setUsername] = useState<string>("")
   const navigate = useNavigate()
-  const [isLoading, setIsLoading] = useState(false)
+  // const [isLoading, setIsLoading] = useState(false)
+  // const [hasError, setHasError] = useState(true)
+  const [error, setError] = useState<string>("")
+  const [status, setStatus] = useState<Status>("idle")
 
   // comportements
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    setIsLoading(true)
+
+    const result = loginFormValidator.safeParse(username)
+
+    if (!result.success) {
+      setStatus("error") // setHasError(true)
+      setError(result.error.issues[0].message)
+      return
+    }
+
+    setStatus("loading") // setIsLoading(true)
 
     const userReceived = await authenticateUser(username)
 
     setTimeout(() => {
       setUsername("")
       navigate(`order/${userReceived.username}`)
-    }, 2000)
+    }, 1500)
   }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,21 +50,23 @@ export default function LoginForm() {
 
   // affichage
   return (
-    <LoginFormStyled action="submit" onSubmit={handleSubmit}>
+    <LoginFormStyled action="submit" onSubmit={handleSubmit} noValidate>
       <Welcome />
-      <div>
+      <div className="input-and-error-message">
         <TextInput
           value={username}
           onChange={handleChange}
           placeholder={"Entrez votre prénom"}
-          required
           Icon={<BsPersonCircle />}
           className="input-login"
           version="normal"
+          required
+          aria-required
         />
-
-        <Button isLoading={isLoading} label={"Accéder à mon espace"} Icon={<IoChevronForward />} />
+        {status === "error" && <ErrorMessage error={error} />}
       </div>
+
+      <Button isLoading={status === "loading"} label={"Accéder à mon espace"} Icon={<IoChevronForward />} />
     </LoginFormStyled>
   )
 }
@@ -79,7 +96,11 @@ const LoginFormStyled = styled.form`
     font-size: ${theme.fonts.size.P4};
   }
 
-  .input-login {
+  .input-and-error-message {
     margin: 18px 0; // must be handled in Parent
+
+    .input-login {
+      margin-bottom: 10px;
+    }
   }
 `
