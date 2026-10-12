@@ -24,7 +24,6 @@ const intialiseCategories = async (
   username: string,
   setCategories: React.Dispatch<React.SetStateAction<Category[]>>
 ) => {
-  //@ts-ignore
   const categoriesReceived = await getCategories(username)
   if (categoriesReceived) {
     setCategories(categoriesReceived as Category[])

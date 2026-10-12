@@ -6,7 +6,7 @@ import SavingMessage from "./SavingMessage"
 import { useSuccessMessage } from "@/hooks/useSuccessMessage"
 import { useParams } from "react-router-dom"
 
-export default function EditForm() {
+export default function ProductEditForm() {
   // state
   const { productSelected, setProductSelected, handleEdit, titleEditRef } = useOrderContext()
 

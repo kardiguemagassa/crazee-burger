@@ -2,7 +2,7 @@ import { useState } from "react"
 import { fakeMenu } from "@/fakeData/fakeMenu"
 import { deepClone } from "@/utils/array"
 //@ts-ignore
-import { syncBothMenus } from "../api/product"
+import { updateMenus } from "../api/product"
 import { Product } from "@/types/Product"
 
 export const useMenu = () => {
@@ -19,7 +19,7 @@ export const useMenu = () => {
 
       // 3. update du state
       setMenu(menuUpdated)
-      syncBothMenus(username, menuUpdated)
+      updateMenus(username, menuUpdated)
     }
   }
 
@@ -33,7 +33,7 @@ export const useMenu = () => {
 
       //3. update du state
       setMenu(menuUpdated)
-      syncBothMenus(username, menuUpdated)
+      updateMenus(username, menuUpdated)
     }
   }
 
@@ -50,13 +50,13 @@ export const useMenu = () => {
 
       // 3. update du state
       setMenu(menuCopy)
-      syncBothMenus(username, menuCopy)
+      updateMenus(username, menuCopy)
     }
   }
 
   const resetMenu = (username: string) => {
     setMenu(fakeMenu.MEDIUM)
-    syncBothMenus(username, fakeMenu.LARGE)
+    updateMenus(username, fakeMenu.LARGE)
   }
 
   return { menu, setMenu, handleAdd, handleDelete, handleEdit, resetMenu }

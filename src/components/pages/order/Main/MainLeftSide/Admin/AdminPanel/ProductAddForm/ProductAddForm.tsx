@@ -3,10 +3,10 @@ import { EMPTY_PRODUCT } from "@/constants/product"
 import { useSuccessMessage } from "@/hooks/useSuccessMessage"
 import { replaceFrenchCommaWithDot } from "@/utils/maths"
 import Form from "../Form/Form"
-import SubmitButton from "./SubmitButton"
+import SubmitButton from "../SubmitButton"
 import { useParams } from "react-router-dom"
 
-export default function AddForm() {
+export default function ProductAddForm() {
   // state
   const { handleAdd, newProduct, setNewProduct } = useOrderContext()
   const { isSubmitted, displaySuccessMessage } = useSuccessMessage()
@@ -36,7 +36,7 @@ export default function AddForm() {
   // affichage
   return (
     <Form product={newProduct} onSubmit={handleSubmit} onChange={handleChange}>
-      <SubmitButton isSubmitted={isSubmitted} />
+      <SubmitButton isSubmitted={isSubmitted} label="Ajouter un nouveau produit" />
     </Form>
   )
 }

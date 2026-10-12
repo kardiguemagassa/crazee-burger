@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { deepClone } from "@/utils/array"
 //@ts-ignore
-import { syncBothMenus } from "../api/product"
+import { updateMenus } from "../api/product"
 import { fakeCategories } from "@/fakeData/fakeCategories"
 import { CATEGORY_ALL } from "@/constants/categories"
 import { CATEGORY_MENUS } from "@/constants/menus"
@@ -39,7 +39,7 @@ export const useCategories = () => {
 
     //3. update du state
     setCategories(menuUpdated)
-    // syncBothMenus(username, menuUpdated)
+    // updateMenus(username, menuUpdated)
   }
 
   const toggleAllCategories = () => {
@@ -98,13 +98,13 @@ export const useCategories = () => {
 
     // 3. update du state
     setCategories(menuCopy)
-    // syncBothMenus(username, menuCopy)
+    // updateMenus(username, menuCopy)
   }
 
   //@ts-ignore
   const resetCategories = (username: string) => {
     setCategories(fakeCategories.SMALL)
-    // syncBothMenus(username, fakeMenu.SMALL)
+    // updateMenus(username, fakeMenu.SMALL)
   }
 
   return {
