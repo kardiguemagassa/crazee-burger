@@ -1,9 +1,10 @@
 import styled from "styled-components"
-import Tab from "../../../../../reusable-ui/Tab"
+import Tab from "@/components/reusable-ui/Tab"
 import { FiChevronDown, FiChevronUp } from "react-icons/fi"
-import { theme } from "../../../../../../theme"
-import { useOrderContext } from "../../../../../../context/OrderContext"
+import { theme } from "@/theme/theme"
+import { useOrderContext } from "@/context/OrderContext"
 import { getTabsConfig } from "./tabsConfig"
+import { ADMIN_TAB_LABEL } from "@/constants/tab"
 
 export default function AdminTabs() {
   // state
@@ -11,7 +12,7 @@ export default function AdminTabs() {
     useOrderContext()
 
   // comportements
-  const selectTab = (tabSelected) => {
+  const selectTab = (tabSelected: ADMIN_TAB_LABEL) => {
     setIsCollapsed(false) // tu m'ouvres le pannel
     setCurrentTabSelected(tabSelected)
   }
@@ -22,7 +23,7 @@ export default function AdminTabs() {
   return (
     <AdminTabsStyled>
       <Tab
-        index="chevron"
+        index={ADMIN_TAB_LABEL.CHEVRON}
         label=""
         Icon={isCollapsed ? <FiChevronUp /> : <FiChevronDown />}
         onClick={() => setIsCollapsed(!isCollapsed)}

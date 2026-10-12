@@ -1,9 +1,14 @@
 import React from "react"
 import styled from "styled-components"
 import ImagePreview from "./ImagePreview"
-import { Inputs } from "./Inputs"
+import { Inputs, InputsProps } from "./Inputs"
 
-const Form = React.forwardRef(({ product, onSubmit, children, onChange, onFocus, onBlur }, ref) => {
+type FormProps = {
+  onSubmit?: React.FormEventHandler<HTMLFormElement>,
+  children: React.ReactNode,
+} & InputsProps
+
+const Form = React.forwardRef<HTMLInputElement, FormProps>(({ product, onSubmit, children, onChange, onFocus, onBlur }, ref) => {
   // state (vide)
 
   // comportements (vide)
