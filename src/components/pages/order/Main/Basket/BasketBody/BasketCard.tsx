@@ -15,6 +15,7 @@ type BasketCardProps = {
   onDelete?: React.MouseEventHandler<HTMLDivElement>,
   isSelected?: boolean,
   isPublicised?: boolean,
+  isMenu?: boolean,
 }
 
 export default function BasketCard({
@@ -28,9 +29,10 @@ export default function BasketCard({
   onDelete,
   isSelected,
   isPublicised,
+  isMenu,
 }: BasketCardProps) {
   return (
-    <BasketCardStyled className={className} $isClickable={isClickable} onClick={onClick} $isSelected={isSelected}>
+    <BasketCardStyled className={className} $isClickable={isClickable} onClick={onClick} $isSelected={isSelected} $isMenu={isMenu}>
       <div className="delete-button" onClick={onDelete}>
         <MdDeleteForever className="icon" />
       </div>
@@ -56,6 +58,7 @@ export default function BasketCard({
 type BasketCardStyledProps = {
   $isClickable?: boolean,
   $isSelected?: boolean
+  $isMenu?: boolean
 }
 
 const BasketCardStyled = styled.div<BasketCardStyledProps>`
@@ -187,11 +190,11 @@ const BasketCardStyled = styled.div<BasketCardStyledProps>`
     }
   }
 
-  ${({ $isClickable, $isSelected }) => $isClickable && $isSelected && selectedStyled}
+  ${({ $isClickable, $isSelected, $isMenu }) => $isClickable && $isSelected && selectedStyled($isMenu)}
 `
 
-const selectedStyled = css`
-  background: ${theme.colors.primary};
+const selectedStyled = (isMenu?: boolean) => css`
+  background: ${isMenu ? theme.colors.purple : theme.colors.primary};
   .price,
   .quantity {
     color: ${theme.colors.white};

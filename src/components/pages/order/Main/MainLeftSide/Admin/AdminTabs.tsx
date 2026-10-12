@@ -8,16 +8,31 @@ import { ADMIN_TAB_LABEL } from "@/constants/tab"
 
 export default function AdminTabs() {
   // state
-  const { isCollapsed, setIsCollapsed, currentTabSelected, setCurrentTabSelected } =
+  const { isCollapsed, setIsCollapsed, currentTabSelected, setCurrentTabSelected, toggleMenusCategory, toggleAllCategories } =
     useOrderContext()
 
   // comportements
   const selectTab = (tabSelected: ADMIN_TAB_LABEL) => {
+    if (tabSelected === ADMIN_TAB_LABEL.MENU_ADD || tabSelected === ADMIN_TAB_LABEL.MENU_EDIT) {
+      toggleMenusCategory()
+    }
+
+    if (tabSelected === ADMIN_TAB_LABEL.PRODUCT_ADD || tabSelected === ADMIN_TAB_LABEL.PRODUCT_EDIT) {
+      toggleAllCategories()
+    }
     setIsCollapsed(false) // tu m'ouvres le pannel
     setCurrentTabSelected(tabSelected)
   }
 
   const tabs = getTabsConfig()
+
+  const getClassNameToApply = (tabIndex: ADMIN_TAB_LABEL): string => {
+    if (tabIndex === ADMIN_TAB_LABEL.MENU_ADD || tabIndex === ADMIN_TAB_LABEL.MENU_EDIT)
+      // pour que les onglets "menus" du panel admin apparaissent en violet quand on clique sur l'un d'entre eux.
+      return currentTabSelected === tabIndex ? "is-products-tab-active" : ""
+
+    return currentTabSelected === tabIndex ? "is-active" : "" // sinon en fond noir pour les onglets "produits"
+  }
 
   // affichage
   return (
@@ -36,7 +51,7 @@ export default function AdminTabs() {
           label={tab.label}
           Icon={tab.Icon}
           onClick={() => selectTab(tab.index)}
-          className={currentTabSelected === tab.index ? "is-active" : ""}
+          className={getClassNameToApply(tab.index)}
         />
       ))}
     </AdminTabsStyled>
@@ -55,6 +70,11 @@ const AdminTabsStyled = styled.div`
     color: ${theme.colors.white};
   }
 
+  .is-products-tab-active {
+    background: ${theme.colors.purple};
+    border-color: ${theme.colors.purple};
+    color: ${theme.colors.white};
+  }
   button {
     margin-left: 1px;
   }

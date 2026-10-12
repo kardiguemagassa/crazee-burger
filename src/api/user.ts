@@ -3,10 +3,12 @@ import { db } from "./firebase-config"
 import { User } from "@/types/User"
 import { fakeProducts } from "@/fakeData/fakeProducts"
 import { fakeCategories } from "@/fakeData/fakeCategories"
+import { fakeMenus } from "@/fakeData/fakeMenus"
 
 const NEW_USER_BY_DEFAULT = {
   products: fakeProducts.LARGE,
   categories: fakeCategories.LARGE,
+  menus: fakeMenus.MEDIUM,
 }
 
 export const getUser = async (idUser: string): Promise<User | undefined> => {
@@ -32,7 +34,8 @@ export const createUser = async (userId: string): Promise<User> => {
   // NOURRITURE
   const newUserToCreate: User = {
     username: userId,
-    menu: fakeProducts.LARGE,
+    products: NEW_USER_BY_DEFAULT.products,
+    menus: NEW_USER_BY_DEFAULT.menus,
     categories: NEW_USER_BY_DEFAULT.categories,
   }
 

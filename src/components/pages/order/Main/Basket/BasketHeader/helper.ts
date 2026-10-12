@@ -3,22 +3,25 @@ import { BasketProductQuantity, Product } from "@/types/Product"
 import { findObjectById } from "@/utils/array"
 import { convertStringToBoolean } from "@/utils/string"
 
-export const calculateSumToPay = (basket: BasketProductQuantity[], menu: Product[] | undefined) => {
-  if (menu === undefined) return DEFAULT_SUM_TO_PAY
+export const calculateSumToPay = (
+  basket: BasketProductQuantity[],
+  products: Product[] | undefined
+) => {
+  if (products === undefined) return DEFAULT_SUM_TO_PAY
 
   return basket.reduce((total, basketProductQuantity) => {
-    const menuProduct = findObjectById(basketProductQuantity.id, menu)
+    const product = findObjectById(basketProductQuantity.id, products)
 
     // pas de produit trouvé (typescript)
-    if (menuProduct === undefined) return total
+    if (product === undefined) return total
 
     // on ne veut pas afficher de NaN
-    if (isNaN(menuProduct.price)) return total
+    if (isNaN(product.price)) return total
 
     // si le produit est en rupture de stock, alors on le retire du calcul du total à payer
-    if (convertStringToBoolean(menuProduct.isAvailable) === false) return total
+    if (convertStringToBoolean(product.isAvailable) === false) return total
 
-    const subTotal = menuProduct.price * basketProductQuantity.quantity
+    const subTotal = product.price * basketProductQuantity.quantity
 
     total += subTotal
     return total

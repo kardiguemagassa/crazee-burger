@@ -1,27 +1,50 @@
 import React from "react"
 import styled from "styled-components"
 import ImagePreview from "./ImagePreview"
-import { Inputs, InputsProps } from "./Inputs"
+import { ProductInputs, ProductInputsProps } from "./ProductInputs"
+import { MenuInputs, MenuInputsProps } from "../MenuForm/MenuInputs"
+import { Product } from "@/types/Product"
+import { Menu } from "@/types/Menu"
 
 type FormProps = {
-  onSubmit?: React.FormEventHandler<HTMLFormElement>,
-  children: React.ReactNode,
-} & InputsProps
+  onSubmit?: React.FormEventHandler<HTMLFormElement>
+  children: React.ReactNode
+  isMenu?: boolean
+  product: Product | Menu
+} & (ProductInputsProps | MenuInputsProps)
 
-const Form = React.forwardRef<HTMLInputElement, FormProps>(({ product, onSubmit, children, onChange, onFocus, onBlur }, ref) => {
-  // state (vide)
+const Form = React.forwardRef<HTMLInputElement, FormProps>(
+  ({ product, onSubmit, children, onChange, onFocus, onBlur, isMenu }, ref) => {
+    // state (vide)
 
-  // comportements (vide)
+    // comportements (vide)
 
-  // affichage
-  return (
-    <FormStyled onSubmit={onSubmit}>
-      <ImagePreview imageSource={product.imageSource} title={product.title} />
-      <Inputs product={product} onChange={onChange} onFocus={onFocus} onBlur={onBlur} ref={ref} />
-      <div className="form-footer">{children}</div>
-    </FormStyled>
-  )
-})
+    // affichage
+    return (
+      <FormStyled onSubmit={onSubmit}>
+        <ImagePreview imageSource={product.imageSource} title={product.title} />
+        {isMenu ? (
+          <MenuInputs
+            menu={product as Menu}
+            onChange={onChange}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            ref={ref}
+          />
+        ) : (
+          <ProductInputs
+            product={product as Product}
+            onChange={onChange}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            ref={ref}
+          />
+        )}
+        <div className="form-footer">{children}</div>
+      </FormStyled>
+    )
+  }
+)
 
 export default Form
 

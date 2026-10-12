@@ -2,7 +2,7 @@ import React from "react"
 import TextInput from "@/components/reusable-ui/TextInput"
 import SelectInput from "@/components/reusable-ui/SelectInput"
 import styled from "styled-components"
-import { getInputTextsConfig, getSelectInputConfig } from "./inputConfig"
+import { getInputTextsConfig, getSelectInputConfig } from "./productInputConfig"
 import { Product } from "@/types/Product"
 import { FormEvents } from "@/types/FormEvents"
 import { MultiSelect } from "@/components/reusable-ui/MultiSelect/MultiSelect"
@@ -12,11 +12,11 @@ import { Category } from "@/types/Category"
 import { IoPricetag } from "react-icons/io5"
 import { ADMIN_TAB_LABEL } from "@/constants/tab"
 
-export type InputsProps = {
+export type ProductInputsProps = {
   product: Product
 } & FormEvents
 
-export const Inputs = React.forwardRef<HTMLInputElement, InputsProps>(
+export const ProductInputs = React.forwardRef<HTMLInputElement, ProductInputsProps>(
   ({ product, onChange, onFocus, onBlur }, ref) => {
     const { categories, productSelected, newProduct, currentTabSelected } = useOrderContext()
 
@@ -35,7 +35,7 @@ export const Inputs = React.forwardRef<HTMLInputElement, InputsProps>(
 
     // affichage
     return (
-      <InputsStyled>
+      <ProductInputsStyled>
         <div className="first-row">
           {/* NAME */}
           <TextInput
@@ -86,12 +86,12 @@ export const Inputs = React.forwardRef<HTMLInputElement, InputsProps>(
             onBlur={onBlur}
           />
         ))}
-      </InputsStyled>
+      </ProductInputsStyled>
     )
   }
 )
 
-const InputsStyled = styled.div`
+const ProductInputsStyled = styled.div`
   /* border: 1px solid red; */
   /* background: blue; */
   grid-area: 1 / 2 / -2 / 3;

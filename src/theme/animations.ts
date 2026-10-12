@@ -108,12 +108,12 @@ export const basketAnimation = css`
   }
 `
 
-export const menuAnimation = css`
+export const productsAnimation = css`
   /* MOUNTING */
-  .menu-animation-enter {
+  .products-animation-enter {
     opacity: 0.01;
     transform: translateX(-120px);
-    &.menu-animation-enter-active {
+    &.products-animation-enter-active {
       opacity: 1;
       transform: translateX(0);
       transition: all ${theme.animations.speed.quick} ease-out;
@@ -121,10 +121,10 @@ export const menuAnimation = css`
   }
 
   /* UNMOUNTING */
-  .menu-animation-exit {
+  .products-animation-exit {
     opacity: 1;
     transform: translateY(0);
-    &.menu-animation-exit-active {
+    &.products-animation-exit-active {
       opacity: 0.01;
       transition: ${theme.animations.speed.quick} ease-out;
     }
@@ -161,5 +161,28 @@ export const badgeAnimation = keyframes`
   
   100% {
     opacity: 1;
+  }
+`
+
+export const marioCoinFloat = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateX(-100%) translateY(10px);
+  }
+  10% {
+    opacity: 1;
+    transform: translateX(-100%) translateY(0px);
+  }
+  80% {
+    opacity: 1;
+    transform: translateX(-100%) translateY(-10px);
+  }
+  90% {
+    opacity: 0.5;
+    transform: translateX(-100%) translateY(-20px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-100%) translateY(-25px);
   }
 `

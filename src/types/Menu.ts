@@ -5,7 +5,7 @@ export type Menu = {
   id: string
   title: string
   imageSource: string // image de couverture
-  products: Product[] // les produits qui composent le products
+  products: Product[] // les produits qui composent le menu
   price: number // somme des prix des produits
   quantity?: number // voir si on garde ou non
   categories: Category[]

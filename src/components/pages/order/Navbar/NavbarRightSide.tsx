@@ -9,8 +9,7 @@ export default function NavbarRightSide() {
   const { isModeAdmin, setIsModeAdmin } = useOrderContext()
 
   const handleOnToggle = () => {
-    if (!isModeAdmin) return
-    displayToastNotification("Mode admin activé", "info", { theme: "dark" })
+    if (!isModeAdmin) displayToastNotification("Mode admin activé", "info", { theme: "dark" })
     setIsModeAdmin(!isModeAdmin)
   }
 

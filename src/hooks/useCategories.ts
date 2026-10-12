@@ -1,18 +1,18 @@
 import { useState } from "react"
 import { deepClone } from "@/utils/array"
 //@ts-ignore
-import { updateMenus } from "../api/product"
+import { updateProducts } from "../api/product"
 import { fakeCategories } from "@/fakeData/fakeCategories"
 import { CATEGORY_ALL } from "@/constants/categories"
-import { CATEGORY_MENUS } from "@/constants/menus"
+import { CATEGORY_MENUS } from "@/constants/menu"
 import { updateCategoriesInDB } from "@/api/categories"
 import { Category } from "@/types/Category"
 
 // ensemble des catégories disponibles pour tous les produits du catalog
 export const useCategories = () => {
-  const [categories, setCategories] = useState<Category[]>(fakeCategories.LARGE)
-  const [categoryAll, setCategoryAll] = useState<Category>(CATEGORY_ALL)
-  const [categoryMenus, setCategoryMenus] = useState<Category>(CATEGORY_MENUS)
+  const [categories, setCategories] = useState<Category[]>(fakeCategories.LARGE) // sert à filtrer et afficher les produits par catégorie
+  const [categoryAll, setCategoryAll] = useState<Category>(CATEGORY_ALL) // c'est le bouton "Tous" qui s'affiche en haut à gauche du catalog produits
+  const [categoryMenus, setCategoryMenus] = useState<Category>(CATEGORY_MENUS) // sert à filtrer et afficher uniquement la catégorie "menus" (l'onglet violet)
 
   // comportements (gestionnaire de state ou "state handlers")
   const handleAddCategory = (categoryToAdd: Category, username: string) => {
@@ -32,14 +32,14 @@ export const useCategories = () => {
   const handleDeleteCategory = (idOfProductToDelete: string, username: string) => {
     if (!categories) return
     //1. copy du state
-    const menuCopy = deepClone(categories)
+    const categoriesCopy = deepClone(categories)
 
     //2. manip de la copie state
-    const menuUpdated = menuCopy.filter((product) => product.id !== idOfProductToDelete)
+    const categoriesUpdated = categoriesCopy.filter((product) => product.id !== idOfProductToDelete)
 
     //3. update du state
-    setCategories(menuUpdated)
-    // updateMenus(username, menuUpdated)
+    setCategories(categoriesUpdated)
+    // updateProducts(username, categoriesUpdated)
   }
 
   const toggleAllCategories = () => {
@@ -49,7 +49,7 @@ export const useCategories = () => {
     }))
 
     setCategoryAll({ ...categoryAll, isActive: true }) // Activer "Tous"
-    setCategoryMenus({ ...categoryMenus, isActive: false }) // Désactiver "Menus"
+    setCategoryMenus({ ...categoryMenus, isActive: false }) // Désactiver "Produits"
     setCategories(categoriesUpdated)
   }
 
@@ -60,7 +60,7 @@ export const useCategories = () => {
     }))
 
     setCategoryAll({ ...categoryAll, isActive: false }) // Désactiver le bouton "Tous"
-    setCategoryMenus({ ...categoryMenus, isActive: false }) // Désactiver le bouton "Menus"
+    setCategoryMenus({ ...categoryMenus, isActive: false }) // Désactiver le bouton "Produits"
     setCategories(categoriesUpdated)
   }
 
@@ -70,7 +70,7 @@ export const useCategories = () => {
     // Si déjà actif, on ne fait rien
     if (isCurrentlyActive) return
 
-    // 1. Activer la catégorie "Menus"
+    // 1. Activer la catégorie "Produits"
     setCategoryMenus({ ...categoryMenus, isActive: true })
 
     // 2. Désactiver toutes les autres catégories standards
@@ -85,20 +85,20 @@ export const useCategories = () => {
   }
 
   //@ts-ignore
-  const handleEditCategory = (productBeingEdited: Product, username: string) => {
+  const handleEditCategory = (categoryBeingEdited: Category, username: string) => {
     // 1. copie du state (deep clone)
     if (!categories) return
-    const menuCopy = deepClone(categories)
+    const categoriesCopy = deepClone(categories)
 
     // 2. manip de la copie du state
-    const indexOfProductToEdit = categories.findIndex(
-      (menuProduct) => menuProduct.id === productBeingEdited.id
+    const indexOfCategoryToEdit = categories.findIndex(
+      (category) => category.id === categoryBeingEdited.id
     )
-    menuCopy[indexOfProductToEdit] = productBeingEdited
+    categoriesCopy[indexOfCategoryToEdit] = categoryBeingEdited
 
     // 3. update du state
-    setCategories(menuCopy)
-    // updateMenus(username, menuCopy)
+    setCategories(categoriesCopy)
+    // updateMenus(username, categoriesCopy)
   }
 
   //@ts-ignore
