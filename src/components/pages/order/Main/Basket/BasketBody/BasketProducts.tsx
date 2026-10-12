@@ -28,10 +28,6 @@ export default function BasketProducts() {
     username && handleDeleteBasketProduct(id, username)
   }
 
-  const handleCardClick = (isModeAdmin: boolean, basketProductId: string) => {
-    isModeAdmin && handleProductSelected(basketProductId)
-  }
-
   const getPrice = (menuProduct: MenuProduct) => {
     return convertStringToBoolean(menuProduct.isAvailable)
       ? formatPrice(menuProduct.price)
@@ -59,7 +55,7 @@ export default function BasketProducts() {
                   quantity={basketProduct.quantity}
                   onDelete={(event) => handleOnDelete(event, basketProduct.id)}
                   isClickable={isModeAdmin}
-                  onClick={() => handleCardClick(isModeAdmin, basketProduct.id)}
+                  onClick={() => handleProductSelected(basketProduct.id)}
                   isSelected={checkIfProductIsClicked(basketProduct.id, productSelected.id)}
                   className={"card"}
                   price={getPrice(menuProduct)}
