@@ -1,13 +1,12 @@
 import styled from "styled-components"
-import { theme } from "../../../../../../theme"
-import Button from "../../../../../reusable-ui/Button"
+import { theme } from "@/theme/theme"
 
-export default function EmptyMenuAdmin({ onReset }) {
+export default function EmptyMenuClient() {
   return (
     <EmptyMenuStyled>
-      <span className="title">Le menu est vide ?</span>
-      <span className="description">Cliquez ci-dessous pour le réinitialiser</span>
-      <Button label={"Générer de nouveaux produits"} onClick={onReset} />
+      <span className="title">Victime de notre succès ! :D</span>
+      <span className="description">De nouvelles recettes sont en cours de préparation.</span>
+      <span className="description">À très vite !</span>
     </EmptyMenuStyled>
   )
 }
@@ -36,11 +35,5 @@ const EmptyMenuStyled = styled.div`
   .description {
     font-size: ${theme.fonts.size.P4};
     margin-top: 20px;
-  }
-
-  button {
-    margin-top: 30px;
-    font-size: ${theme.fonts.size.XS};
-    width: auto;
   }
 `
