@@ -9,11 +9,14 @@ import { useOrderContext } from "@/context/OrderContext"
 import { ModalShortcuts } from "./Main/MainLeftSide/Admin/ModalShortcuts"
 import { getLocalStorage, setLocalStorage } from "@/utils/window"
 import { useCreateKeyboardShortcut } from "@/hooks/useCreateKeyboardShortcut"
+import { ModalKitchen } from "./Navbar/ModalKitchen"
+import { useModalContext } from "@/context/ModalContext"
 
 export default function OrderPage() {
   // state
   const { username } = useParams()
   const { setProducts, setBasket, isModeAdmin, setIsModeAdmin, hidePanel, setCategories, setMenus } = useOrderContext()
+  const { isModalKitchenVisible } = useModalContext()
   const [isModalShortcutsVisible, setIsModalShortcutsVisible] = useState(getLocalStorage("isModalShortcutsVisible") as boolean | null)
   if (isModalShortcutsVisible === null) {
     setIsModalShortcutsVisible(true)
@@ -39,6 +42,7 @@ export default function OrderPage() {
   //affichage (render)
   return (
     <OrderPageStyled>
+      {isModalKitchenVisible && <ModalKitchen />}
       {isModalShortcutsVisible && isModeAdmin && <ModalShortcuts onClick={deletePermanently} />}
       <div className="container">
         <Navbar />

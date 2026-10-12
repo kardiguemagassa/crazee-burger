@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { BASKET_MESSAGE, IMAGE_COMING_SOON } from "@/constants/product"
+import { BASKET_MESSAGE, EMPTY_PRODUCT, IMAGE_COMING_SOON } from "@/constants/product"
 import BasketCard from "./BasketCard"
 import { useOrderContext } from "@/context/OrderContext"
 import { checkIfProductIsClicked } from "../../MainLeftSide/CatalogProducts/helper"
@@ -10,6 +10,8 @@ import { convertStringToBoolean } from "@/utils/string"
 import { useParams } from "react-router-dom"
 import { Product } from "@/types/Product"
 import { getBasketItem } from "./helper"
+import { isMenuType, isProductType } from "@/utils/typeGuards"
+import { EMPTY_MENU } from "@/constants/menu"
 
 export default function BasketItems() {
     const {
@@ -20,6 +22,12 @@ export default function BasketItems() {
         handleProductSelected,
         productSelected,
         menus,
+        handleMenuSelected,
+        setProductSelected,
+        toggleMenusCategory,
+        setMenuSelected,
+        toggleAllCategories,
+        menuSelected,
     } = useOrderContext()
 
     const { username } = useParams()
@@ -27,6 +35,25 @@ export default function BasketItems() {
     const handleOnDelete = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, id: string) => {
         event.stopPropagation()
         username && handleDeleteBasketProduct(id, username)
+    }
+
+    const handleCardClick = (basketItemId: string) => {
+        if (!isModeAdmin) return
+        const itemFound = getBasketItem(basketItemId, products, menus)
+        if (!itemFound) return
+
+        if (isMenuType(itemFound)) {
+            handleMenuSelected(itemFound.id)
+            setProductSelected(EMPTY_PRODUCT) // pour avoir un seul article sélectionné dans le panier à la fois
+            toggleMenusCategory()
+            return
+        }
+        if (isProductType(itemFound)) {
+            handleProductSelected(itemFound.id)
+            setMenuSelected(EMPTY_MENU) // pour avoir un seul article sélectionné dans le panier à la fois
+            toggleAllCategories()
+            return
+        }
     }
 
     const getPrice = (product: Product) => {
@@ -41,6 +68,7 @@ export default function BasketItems() {
                 if (products === undefined || menus === undefined) return <></>
                 const basketItem = getBasketItem(basketProduct.id, products, menus)
                 if (!basketItem) return <></>
+                const isMenu = "products" in basketItem
                 return (
                     <CSSTransition
                         appear={true}
@@ -50,17 +78,18 @@ export default function BasketItems() {
                     >
                         <div className="card-container">
                             <BasketCard
+                                key={basketItem.id}
                                 {...basketItem}
                                 imageSource={basketItem.imageSource ? basketItem.imageSource : IMAGE_COMING_SOON}
                                 quantity={basketProduct.quantity}
                                 onDelete={(event) => handleOnDelete(event, basketProduct.id)}
                                 isClickable={isModeAdmin}
-                                onClick={() => handleProductSelected(basketProduct.id)}
-                                isSelected={checkIfProductIsClicked(basketProduct.id, productSelected.id)}
+                                onClick={() => handleCardClick(basketProduct.id)}
+                                isSelected={checkIfProductIsClicked(basketProduct.id, productSelected.id, menuSelected.id)}
                                 className={"card"}
                                 price={getPrice(basketItem)}
                                 isPublicised={convertStringToBoolean(basketItem.isPublicised)}
-                                isMenu={"products" in basketItem}
+                                isMenu={isMenu}
                             />
                         </div>
                     </CSSTransition>

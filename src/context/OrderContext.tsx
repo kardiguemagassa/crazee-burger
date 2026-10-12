@@ -59,6 +59,8 @@ type OrderContextType = {
   setMenuSelected: React.Dispatch<React.SetStateAction<Menu>>
   handleMenuSelected: (idMenuClicked: string) => Promise<void>
   titleMenuEditRef: React.RefObject<HTMLInputElement>
+  emptyBasket: (username: string) => void
+
 }
 
 // 1. Création du context
@@ -79,7 +81,7 @@ export const OrderContextProvider = ({ children }: PropsWithChildren) => {
   const titleEditRef = useRef<HTMLInputElement>(null)
   const titleMenuEditRef = useRef<HTMLInputElement>(null)
   const { products, setProducts, handleAdd, handleDelete, handleEdit, resetProducts } = useProducts()
-  const { basket, setBasket, handleAddToBasket, handleDeleteBasketProduct } = useBasket()
+  const { basket, setBasket, handleAddToBasket, handleDeleteBasketProduct, emptyBasket } = useBasket()
   const {
     categories,
     setCategories,
@@ -165,7 +167,8 @@ export const OrderContextProvider = ({ children }: PropsWithChildren) => {
     menuSelected,
     setMenuSelected,
     handleMenuSelected,
-    titleMenuEditRef
+    titleMenuEditRef,
+    emptyBasket
   }
 
   return <OrderContext.Provider value={orderContextValue}>{children}</OrderContext.Provider>
