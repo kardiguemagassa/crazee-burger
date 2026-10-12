@@ -14,17 +14,17 @@ import {
 import { getCategoryActive, isEmpty } from "@/utils/array"
 import LoadingMessage from "./LoadingMessage"
 import { CSSTransition, TransitionGroup } from "react-transition-group"
-import { menuAnimation } from "@/theme/animations"
+import { productsAnimation } from "@/theme/animations"
 import { convertStringToBoolean } from "@/utils/string"
 import RibbonAnimated, { ribbonAnimation } from "./RibbonAnimated"
 import { useParams } from "react-router-dom"
 
 export default function CatalogProducts() {
   const {
-    menu,
+    products,
     isModeAdmin,
     handleDelete,
-    resetMenu,
+    resetProducts,
     productSelected,
     setProductSelected,
     handleAddToBasket,
@@ -54,21 +54,21 @@ export default function CatalogProducts() {
   let cardContainerClassName = isModeAdmin ? "card-container is-hoverable" : "card-container"
 
   // affichage
-  if (menu === undefined) return <LoadingMessage />
+  if (products === undefined) return <LoadingMessage />
 
-  if (isEmpty(menu)) {
+  if (isEmpty(products)) {
     if (!isModeAdmin) return <EmptyCatalogProductsClient />
-    if (username) return <EmptyCatalogProductsAdmin onReset={() => resetMenu(username)} />
+    if (username) return <EmptyCatalogProductsAdmin onReset={() => resetProducts(username)} />
   }
 
   const activeCategory = getCategoryActive(categories)
-  const productsToDisplay = getProductsToDisplay(categoryAll, menu, activeCategory)
+  const productsToDisplay = getProductsToDisplay(categoryAll, products, activeCategory)
 
   return (
-    <TransitionGroup component={CatalogProductsStyled} className="menu">
+    <TransitionGroup component={CatalogProductsStyled} className="products">
       {productsToDisplay.map(({ id, title, imageSource, price, isAvailable, isPublicised, categories }) => {
         return (
-          <CSSTransition classNames={"menu-animation"} key={id} timeout={300}>
+          <CSSTransition classNames={"products-animation"} key={id} timeout={300}>
             <div className={cardContainerClassName}>
               {convertStringToBoolean(isPublicised) && <RibbonAnimated />}
               <Card
@@ -104,7 +104,7 @@ const CatalogProductsStyled = styled.div`
   overflow-y: scroll;
   margin-bottom: 220px;
   
-  ${menuAnimation}
+  ${productsAnimation}
 
   .card-container {
     position: relative;

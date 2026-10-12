@@ -35,7 +35,7 @@ export const useBasket = () => {
     setBasket: React.Dispatch<React.SetStateAction<BasketProductQuantity[]>>,
     username: string
   ) => {
-    // we do not re-create a whole product, we only add the extra info a basket product has in comparison to a menu product
+    // we do not re-create a whole product, we only add the extra info a basket product has in comparison to a products list
     const newBasketProduct = { id: idProductToAdd, quantity: 1 }
     const newBasket = [newBasketProduct, ...basketCopy]
     setBasket(newBasket)

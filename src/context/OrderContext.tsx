@@ -1,5 +1,5 @@
 import { createContext, PropsWithChildren, useContext, useRef, useState } from "react"
-import { useMenu } from "@/hooks/useMenu"
+import { useProducts } from "@/hooks/useProducts"
 import { useBasket } from "@/hooks/useBasket"
 import { findObjectById } from "@/utils/array"
 import { EMPTY_PRODUCT } from "@/constants/product"
@@ -8,6 +8,10 @@ import { ADMIN_TAB_LABEL } from "@/constants/tab"
 import { useCategories } from "@/hooks/useCategories"
 import { Category } from "@/types/Category"
 import { DEFAULT_CATEGORY } from "@/constants/categories"
+import { useMenus } from "@/hooks/useMenus"
+import { Menu } from "@/types/Menu"
+import { EMPTY_MENU } from "@/constants/menu"
+import { getMultiSelectedProductOptions } from "@/components/pages/order/Main/MainLeftSide/Admin/AdminPanel/MenuForm/MenuInputs"
 
 type OrderContextType = {
   isModeAdmin: boolean
@@ -16,11 +20,11 @@ type OrderContextType = {
   setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>
   currentTabSelected: ADMIN_TAB_LABEL
   setCurrentTabSelected: React.Dispatch<React.SetStateAction<ADMIN_TAB_LABEL>>
-  menu: Product[] | undefined
-  setMenu: React.Dispatch<React.SetStateAction<Product[] | undefined>>
+  products: Product[] | undefined
+  setProducts: React.Dispatch<React.SetStateAction<Product[] | undefined>>
   handleAdd: (newProduct: Product, username: string) => void
   handleDelete: (idOfProductToDelete: string, username: string) => void
-  resetMenu: (username: string) => void
+  resetProducts: (username: string) => void
   newProduct: Product
   setNewProduct: React.Dispatch<React.SetStateAction<Product>>
   productSelected: Product
@@ -43,6 +47,18 @@ type OrderContextType = {
   categoryMenus: Category
   newCategory: Category
   setNewCategory: React.Dispatch<React.SetStateAction<Category>>
+  menus: Menu[] | undefined
+  setMenus: React.Dispatch<React.SetStateAction<Menu[] | undefined>>
+  handleAddMenu: (newMenu: Menu, username: string) => void
+  handleDeleteMenu: (idOfMenuToDelete: string, username: string) => void
+  handleMenuEdit: (menuBeingEdited: Menu, username: string) => void
+  resetMenus: (username: string) => void
+  newMenu: Menu
+  setNewMenu: React.Dispatch<React.SetStateAction<Menu>>
+  menuSelected: Menu
+  setMenuSelected: React.Dispatch<React.SetStateAction<Menu>>
+  handleMenuSelected: (idMenuClicked: string) => Promise<void>
+  titleMenuEditRef: React.RefObject<HTMLInputElement>
 }
 
 // 1. Création du context
@@ -55,11 +71,14 @@ export const OrderContextProvider = ({ children }: PropsWithChildren) => {
   const [currentTabSelected, setCurrentTabSelected] = useState<ADMIN_TAB_LABEL>(
     ADMIN_TAB_LABEL.PRODUCT_ADD
   )
-  const [newProduct, setNewProduct] = useState(EMPTY_PRODUCT)
-  const [newCategory, setNewCategory] = useState(DEFAULT_CATEGORY)
+  const [newProduct, setNewProduct] = useState<Product>(EMPTY_PRODUCT)
+  const [newCategory, setNewCategory] = useState<Category>(DEFAULT_CATEGORY)
+  const [newMenu, setNewMenu] = useState<Menu>(EMPTY_MENU)
   const [productSelected, setProductSelected] = useState<Product>(EMPTY_PRODUCT)
+  const [menuSelected, setMenuSelected] = useState<Menu>(EMPTY_MENU)
   const titleEditRef = useRef<HTMLInputElement>(null)
-  const { menu, setMenu, handleAdd, handleDelete, handleEdit, resetMenu } = useMenu()
+  const titleMenuEditRef = useRef<HTMLInputElement>(null)
+  const { products, setProducts, handleAdd, handleDelete, handleEdit, resetProducts } = useProducts()
   const { basket, setBasket, handleAddToBasket, handleDeleteBasketProduct } = useBasket()
   const {
     categories,
@@ -71,16 +90,30 @@ export const OrderContextProvider = ({ children }: PropsWithChildren) => {
     toggleMenusCategory,
     categoryMenus,
   } = useCategories()
+  const { menus, setMenus, handleAddMenu, handleDeleteMenu, handleMenuEdit, resetMenus } = useMenus()
 
   const handleProductSelected = async (idProductClicked: string) => {
-    if (!isModeAdmin || !menu) return
-    const productClickedOn = findObjectById(idProductClicked, menu)
+    if (!isModeAdmin || !products) return
+    const productClickedOn = findObjectById(idProductClicked, products)
     if (!productClickedOn) return
     await setIsCollapsed(false)
     await setCurrentTabSelected(ADMIN_TAB_LABEL.PRODUCT_EDIT)
     await setProductSelected(productClickedOn)
     // titleEditRef.current && titleEditRef.current.focus() // ériture équivalente
     titleEditRef.current?.focus()
+  }
+
+  const handleMenuSelected = async (idMenuClicked: string) => {
+    if (!isModeAdmin || !menus) return
+    const menuClickedOn = findObjectById(idMenuClicked, menus)
+    if (!menuClickedOn) return
+    await setIsCollapsed(false)
+    await setCurrentTabSelected(ADMIN_TAB_LABEL.MENU_EDIT)
+    await setMenuSelected(menuClickedOn)
+    const newProducts = getMultiSelectedProductOptions(menuClickedOn.products)
+    const menuSelectedAugmentedWithLabelAndValue = { ...menuClickedOn, products: newProducts }
+    setMenuSelected(menuSelectedAugmentedWithLabelAndValue)
+    titleMenuEditRef.current?.focus()
   }
 
   const hidePanel = () => {
@@ -94,11 +127,11 @@ export const OrderContextProvider = ({ children }: PropsWithChildren) => {
     setIsCollapsed,
     currentTabSelected,
     setCurrentTabSelected,
-    menu,
-    setMenu,
+    products,
+    setProducts,
     handleAdd,
     handleDelete,
-    resetMenu,
+    resetProducts,
     newProduct,
     setNewProduct,
     productSelected,
@@ -121,6 +154,18 @@ export const OrderContextProvider = ({ children }: PropsWithChildren) => {
     categoryMenus,
     newCategory,
     setNewCategory,
+    menus,
+    setMenus,
+    handleAddMenu,
+    handleDeleteMenu,
+    handleMenuEdit,
+    resetMenus,
+    newMenu,
+    setNewMenu,
+    menuSelected,
+    setMenuSelected,
+    handleMenuSelected,
+    titleMenuEditRef
   }
 
   return <OrderContext.Provider value={orderContextValue}>{children}</OrderContext.Provider>

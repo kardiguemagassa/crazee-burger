@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useOrderContext } from "@/context/OrderContext"
-import Form from "../Form/Form"
+import Form from "../../Form/Form"
 import EditInfoMessage from "./EditInfoMessage"
 import SavingMessage from "./SavingMessage"
 import { useSuccessMessage } from "@/hooks/useSuccessMessage"
@@ -25,7 +25,7 @@ export default function ProductEditForm() {
     }
 
     setProductSelected(productBeingUpdated) // cette ligne update le formulaire
-    username && handleEdit(productBeingUpdated, username) // cette ligne update le menu
+    username && handleEdit(productBeingUpdated, username) // cette ligne update les produits
   }
 
   const handleOnFocus = (event: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => {

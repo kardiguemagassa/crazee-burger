@@ -2,28 +2,28 @@ import styled from "styled-components"
 import { theme } from "@/theme/theme"
 import Button from "@/components/reusable-ui/Button"
 
-type EmptyMenuAdminProps = {
+type EmptyCatalogProductsAdminProps = {
   onReset?: React.MouseEventHandler<HTMLButtonElement>
 }
 
-export default function EmptyMenuAdmin({ onReset }: EmptyMenuAdminProps) {
+export default function EmptyCatalogProductsAdmin({ onReset }: EmptyCatalogProductsAdminProps) {
   return (
-    <EmptyMenuStyled>
-      <span className="title">Le menu est vide ?</span>
+    <EmptyProductsStyled>
+      <span className="title">Plus de produit ?</span>
       <span className="description">Cliquez ci-dessous pour le réinitialiser</span>
       <Button label={"Générer de nouveaux produits"} onClick={onReset} />
-    </EmptyMenuStyled>
+    </EmptyProductsStyled>
   )
 }
 
-const EmptyMenuStyled = styled.div`
+const EmptyProductsStyled = styled.div`
   background-color: ${theme.colors.background_white};
   box-shadow: ${theme.shadows.strong};
   border-bottom-right-radius: ${theme.borderRadius.extraRound};
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center; // permet de diminuer la largeur du bouton resetMenu
+  align-items: center; // permet de diminuer la largeur du bouton resetProducts
   height: 100%;
   background-color: transparent;
   position: absolute;

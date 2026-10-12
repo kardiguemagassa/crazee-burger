@@ -7,9 +7,9 @@ import { calculateSumToPay } from "./helper"
 import CasinoEffect from "@/components/reusable-ui/CasinoEffect"
 
 export default function BasketHeader() {
-  const { basket, menu } = useOrderContext()
+  const { basket, products } = useOrderContext()
 
-  const sumToPay = calculateSumToPay(basket, menu)
+  const sumToPay = calculateSumToPay(basket, products)
 
   return (
     <Header>
